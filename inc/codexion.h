@@ -6,7 +6,7 @@
 /*   By: lfleitas <lautarofleitas@gmail.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 19:14:43 by lfleitas          #+#    #+#             */
-/*   Updated: 2026/04/13 20:33:16 by lfleitas         ###   ########.fr       */
+/*   Updated: 2026/04/21 14:42:16 by lfleitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ typedef enum e_scheduler
 	EDF
 }	t_scheduler;
 
-typedef struct s_config	t_config;
-
 typedef struct s_request
 {
 	int			coder_id;
@@ -45,6 +43,8 @@ typedef struct s_heap
 	int			size;
 	int			capacity;
 }	t_heap;
+
+typedef struct s_config	t_config;
 
 typedef struct s_dongle
 {
@@ -86,6 +86,9 @@ struct s_config
 	t_dongle		*dongles;
 };
 
+/* main.c */
+int			main(int argc, char **argv);
+
 /* parse.c */
 int			parse_args(int argc, char **argv, t_config *config);
 
@@ -99,15 +102,15 @@ void		*coder_routine(void *arg);
 /* routine_actions.c */
 int			take_dongle(t_coder *coder, t_dongle *dongle);
 void		release_dongle(t_coder *coder, t_dongle *dongle);
+void		wait_for_turn(t_coder *coder, t_dongle *dongle);
 
 /* monitor.c */
 void		*monitor_routine(void *arg);
 
-/* scheduler.c (Gestión del Heap) */
+/* scheduler.c */
 int			heap_push(t_heap *heap, t_request req, t_scheduler type);
 t_request	heap_pop(t_heap *heap, t_scheduler type);
 int			heap_init(t_heap *heap, int capacity);
-void		heap_free(t_heap *heap);
 
 /* utils.c */
 long long	get_time_ms(void);
